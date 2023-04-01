@@ -1,4 +1,6 @@
-# Installation
+# About
+
+Nginx web server to host simple static content
 
 ## Deployment
 
