@@ -9,4 +9,10 @@ services:
       - type: bind
         source: prometheus.yml
         target: /etc/prometheus/prometheus.yml
+        
+      - prometheus-data:/prometheus
+
+volumes:
+  prometheus-data:
+    driver: local
       
