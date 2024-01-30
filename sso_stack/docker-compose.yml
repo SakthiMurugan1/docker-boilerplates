@@ -1,0 +1,71 @@
+version: '3'
+services:
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:latest
+    ports:
+      - "9091:9091"
+    volumes:
+      - /home/smurugan/docker/sso_stack/data/authelia/config:/config
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+    depends_on:
+      - redis
+      - mariadb
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    expose:
+      - 6379
+    volumes:
+      - /home/smurugan/docker/sso_stack/data/redis/data:/data
+      - /home/smurugan/docker/sso_stack/data/redis/data/redis.conf:/etc/redis/redis.conf
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    restart: unless-stopped
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    expose:
+      - 3306
+    volumes:
+      - /home/smurugan/docker/sso_stack/data/mariadb/data:/var/lib/mysql:Z
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ROOT_USER: root
+      MYSQL_DATABASE: authelia
+      MYSQL_USER: authelia
+      MYSQL_PASSWORD: ""
+    restart: unless-stopped
+
+  lldap:
+    container_name: lldap
+    image: lldap/lldap:latest
+    restart: unless-stopped
+    ports:
+      # For LDAP, not recommended to expose, see Usage section.
+      #- "3890:3890"
+      # For LDAPS (LDAP Over SSL), enable port if LLDAP_LDAPS_OPTIONS__ENABLED set true, look env below
+      #- "6360:6360"
+      # For the web front-end
+      - "17170:17170"
+    volumes:
+      - "/home/smurugan/docker/sso_stack/data/lldap/data:/data"
+      # Alternatively, you can mount a volume
+      # - "lldap_data:/data"
+    environment:
+      - UID=1000
+      - GID=1000
+      - TZ=Asia/Kolkata
+      - LLDAP_JWT_SECRET=''
+      - LLDAP_KEY_SEED=''
+      - LLDAP_LDAP_BASE_DN=dc=homeserver,dc=local
+      # If using LDAPS, set enabled true and configure cert and key path
+      # - LLDAP_LDAPS_OPTIONS__ENABLED=true
+      # - LLDAP_LDAPS_OPTIONS__CERT_FILE=/path/to/certfile.crt
+      # - LLDAP_LDAPS_OPTIONS__KEY_FILE=/path/to/keyfile.key
+      # You can also set a different database:
+      # - LLDAP_DATABASE_URL=mysql://mysql-user:password@mysql-server/my-database
+      # - LLDAP_DATABASE_URL=postgres://postgres-user:password@postgres-server/my-database

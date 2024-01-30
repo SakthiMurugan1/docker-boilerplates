@@ -1,0 +1,15 @@
+version: "3"
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    ports:
+      - '8000:8000' # portainer agent port - may not be required in a local env
+      - '9443:9443' # HTTPS port for admin interface
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock' # Necessary for portainer to manage docker daemons on the local system
+      - 'portainer_data:/data'
+    restart: always
+volumes:
+  portainer_data:
+    external: true

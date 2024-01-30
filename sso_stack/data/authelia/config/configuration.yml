@@ -1,0 +1,174 @@
+---
+###############################################################################
+#                           Authelia Configuration                            #
+###############################################################################
+
+theme: dark
+jwt_secret: "3pycHrFxkj4Iek4Eqxt5dHf88fl2KBoe0ahYwie43HOAzvF6wRVIruX4h6NYSOld"
+default_redirection_url: https://homeserver.local/
+
+server:
+  host: 0.0.0.0
+  port: 9091
+  path: ""
+  read_buffer_size: 4096
+  write_buffer_size: 4096
+  enable_pprof: false
+  enable_expvars: false
+  disable_healthcheck: false
+  tls:
+    key: ""
+    certificate: ""
+
+log:
+  level: info
+  # file_path: /config/authelia.%d.log
+
+totp:
+  issuer: homeserver.local
+  period: 30
+  skew: 1
+
+# authentication_backend:
+#   password_reset:
+#     disable: false
+#   refresh_interval: 5m
+#   file:
+#     path: /config/users_database.yml
+#     password:
+#       algorithm: argon2id
+#       iterations: 1
+#       key_length: 32
+#       salt_length: 16
+#       memory: 1024
+#       parallelism: 8
+
+authentication_backend:
+  # Password reset through authelia works normally.
+  password_reset:
+    disable: false
+  # How often authelia should check if there is an user update in LDAP
+  refresh_interval: 1m
+  ldap:
+    implementation: custom
+    # Pattern is ldap://HOSTNAME-OR-IP:PORT
+    # Normal ldap port is 389, standard in LLDAP is 3890
+    url: ldap://lldap:3890
+    # The dial timeout for LDAP.
+    timeout: 5s
+    # Use StartTLS with the LDAP connection, TLS not supported right now
+    start_tls: false
+    #tls:
+    #  skip_verify: false
+    #  minimum_version: TLS1.2
+    # Set base dn, like dc=google,dc.com
+    base_dn: dc=homeserver,dc=local
+    username_attribute: uid
+    # You need to set this to ou=people, because all users are stored in this ou!
+    additional_users_dn: ou=people
+    # To allow sign in both with username and email, one can use a filter like
+    # (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+    users_filter: "(&({username_attribute}={input})(objectClass=person))"
+    # Set this to ou=groups, because all groups are stored in this ou
+    additional_groups_dn: ou=groups
+    # The groups are not displayed in the UI, but this filter works.
+    groups_filter: "(member={dn})"
+    # The attribute holding the name of the group.
+    group_name_attribute: cn
+    # Email attribute
+    mail_attribute: mail
+    # The attribute holding the display name of the user. This will be used to greet an authenticated user.
+    display_name_attribute: displayName
+    # The username and password of the admin user.
+    # "admin" should be the admin username you set in the LLDAP configuration
+    user: uid=admin,ou=people,dc=homeserver,dc=local
+    # Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
+    password: ''
+
+access_control:
+  default_policy: deny
+  rules:
+    ## bypass rule
+    - domain: 
+        - "auth.homeserver.local"
+      policy: bypass
+    ## bypass api / triggers
+    - domain: "*.homeserver.local"
+      resources:
+        - "^/api([/?].*)?$"
+        - "^/identity.*$"
+        - "^/triggers.*$"
+        - "^/meshagents.*$"
+        - "^/meshsettings.*$"
+        - "^/agent.*$"
+        - "^/control.*$"
+        - "^/meshrelay.*$"
+        - "^/wl.*$"
+      policy: bypass
+    ## catch-all
+    - domain:
+        - "*.homeserver.local"
+      subject: 
+        - "group:admins"
+      policy: one_factor
+password_policy:
+  standard:
+    enabled: true
+    min_length: 8
+    max_length: 0
+    require_uppercase: true
+    require_lowercase: true
+    require_number: true
+    require_special: false
+  # zxcvbn:
+  #   enabled: false
+  #   min_score: 3
+
+session:
+  name: authelia_session
+  domain: homeserver.local
+  same_site: lax
+  secret: ""
+  expiration: 1h
+  inactivity: 5m
+  remember_me_duration: 1w
+  redis:
+    host: redis
+    port: 6379
+    password: ""
+    database_index: 0
+    maximum_active_connections: 10
+    minimum_idle_connections: 0
+
+regulation:
+  max_retries: 3
+  find_time: 10m
+  ban_time: 10m
+
+storage:
+  encryption_key: ""
+  mysql:
+    host: mariadb
+    port: 3306
+    database: authelia
+    username: authelia
+    password: ""
+  
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: /config/notification.txt
+  # smtp:
+  #   username: YOUR@EMAIL.HERE
+  #   password: "YOUR_EMAIL_PASSWORD"
+  #   host: YOUR_SMTP_HOST
+  #   port: 587
+  #   sender: YOUR@EMAIL.HERE
+  #   identifier: localhost
+  #   subject: "[Authelia] {title}"
+  #   startup_check_address: test@authelia.com
+  #   disable_require_tls: false
+  #   disable_html_emails: false
+  #   tls:
+  #     skip_verify: false
+  #     minimum_version: TLS1.2

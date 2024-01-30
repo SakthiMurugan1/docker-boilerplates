@@ -1,0 +1,16 @@
+version: '3'
+services:
+  prometheus:
+    container_name: prometheus
+    restart: unless-stopped
+    image: prom/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    volumes:
+      - 'home/smurugan/docker/prometheus/etc/prometheus.yml:/etc/prometheus/prometheus.yml'
+      - 'prometheus_data:/prometheus'
+volumes:
+  prometheus_data:
+    driver: local

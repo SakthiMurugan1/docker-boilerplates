@@ -1,0 +1,34 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+
+#providers:
+  #openweathermap: openweathermapapikey
+  #weatherapi: weatherapiapikey
+
+title: homeserver.local
+
+background:
+  #image: https://cdnb.artstation.com/p/assets/images/images/006/897/659/large/mikael-gustafsson-wallpaper-mikael-gustafsson.jpg
+  image: https://lh3.googleusercontent.com/pw/ABLVV86ePf5XyvhZ32-9HIm3BLSbnAB1DlsYYWBvn8jp-Rc6b3ouOz0krTLwxGTGeDZwgAXRzhuMY7rcHGjCOkdoLIJqZRxR1IBQmk2bqoJLYhjeMO8rwf7B16ZH06ACquEyaDsQAaupGjWDQ6YNxkfnbBd-=w924-h924-s-no
+  blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 100 # 0-100
+
+useEqualHeights: true
+
+theme: dark
+color: neutral
+
+headerStyle: boxedWidgets
+
+hideVersion: true
+statusStyle: "dot"
+
+
+layout:
+  Services:
+    header: true
+    style: row
+    columns: 3
