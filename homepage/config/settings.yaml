@@ -24,11 +24,16 @@ color: neutral
 headerStyle: boxedWidgets
 
 hideVersion: true
-statusStyle: "dot"
+#statusStyle: "dot"
 
+fiveColumns: true
 
 layout:
   Services:
+    style: row
+    columns: 4
+    header: true
+  System:
     header: true
     style: row
     columns: 3
