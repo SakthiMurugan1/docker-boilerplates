@@ -1,0 +1,31 @@
+version: '3.2'
+
+services:
+  rclone:
+    image: rclone/rclone:latest
+    container_name: rclone
+    security_opt:
+    - no-new-privileges:true
+    restart: unless-stopped
+    # cap_add:
+    # - SYS_ADMIN
+    # - SETPCAP
+    command: rcd --rc-web-gui --rc-addr 0.0.0.0:5572 --rc-web-fetch-url=https://api.github.com/repos/rclone/rclone-webui-react/releases/latest --rc-web-gui-update --rc-web-gui-no-open-browser --rc-user smurugan --rc-pass supersecretpassword -vv --checksum --transfers=4 --checkers=4 --contimeout=60s --timeout=300s --retries=3 --low-level-retries=10 --stats=1s --stats-file-name-length=0
+    ports:
+     - "5572:5572"
+    volumes:
+    - /home/smurugan/docker/rclone/config:/config/rclone #location of your rclone config file (i.e., where the remote and secrets are stored)
+    - /home/smurugan:/data # Wherever you store the data you wish to upload
+    # - /etc/passwd:/etc/passwd:ro
+    # - /etc/group:/etc/group:ro
+    # - /dev/fuse:/dev/fuse
+    environment:
+    - PHP_TZ=Asia/Kolkata
+    # - PUID=1000
+    # - PGID=1000
+
+
+# Please see https://rclone.org/commands/ for more commands
+
+# docker exec -it rclone sh
+# rclone sync path/to/dir dropbox_crypt:path/to/dir --interactive --progress --dry-run
