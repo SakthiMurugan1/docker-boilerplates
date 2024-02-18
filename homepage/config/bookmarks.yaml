@@ -5,7 +5,7 @@
 - Bookmarks:
     - Github:
         - abbr: GH
-          icon: github.png
+          icon: github-light.png
           href: https://github.com/login/
     - DropBox:
         - abbr: DB
