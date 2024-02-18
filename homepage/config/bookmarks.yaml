@@ -2,10 +2,15 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/bookmarks
 
-#- Developer:
-    #- Github:
-        #- abbr: GH
-          #href: https://github.com/
+- Bookmarks:
+    - Github:
+        - abbr: GH
+          icon: github.png
+          href: https://github.com/login/
+    - DropBox:
+        - abbr: DB
+          icon: dropbox.png
+          href: https://dropbox.com/login/
 
 #- Social:
     #- Reddit:
