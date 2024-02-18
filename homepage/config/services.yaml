@@ -91,14 +91,6 @@
           type: prometheus
           url: https://prometheus.homeserver.local
 
-- Backups:
-    - rclone:
-        icon: rclone.png
-        href: https://rclone.homeserver.local/
-        description: Encrypted Cloud Backups
-        server: docker-local
-        container: rclone
-
 - Identity Management:
     - Light LDAP:
         icon: mdi-database
@@ -112,3 +104,11 @@
         description: Login and SSO
         server: docker-local
         container: authelia
+
+- Backups:
+    - rclone:
+        icon: rclone.png
+        href: https://rclone.homeserver.local/
+        description: Encrypted Cloud Backups
+        server: docker-local
+        container: rclone
