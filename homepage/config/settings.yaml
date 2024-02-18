@@ -30,9 +30,15 @@ hideVersion: true
 
 layout:
   Services:
+    style: row
+    columns: 4
   System:
   Networking:
   Monitoring:
   Identity Management:
   Backups:
+    style: row
+    columns: 4
   Bookmarks:
+    style: row
+    columns: 4
