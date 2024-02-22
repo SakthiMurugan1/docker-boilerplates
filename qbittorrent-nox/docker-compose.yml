@@ -14,7 +14,7 @@ services:
       - QBT_VERSION=latest
       - QBT_WEBUI_PORT=1080
       #- TZ=UTC
-      #- UMASK=022
+      - UMASK=022
     image: qbittorrentofficial/qbittorrent-nox:latest
     ports:
       # for bittorrent traffic
