@@ -8,4 +8,5 @@ services:
     environment:
       TZ: 'Asia/Kolkata'
       WATCHTOWER_SCHEDULE: '0 0 4 * * *'
+      WATCHTOWER_CLEANUP: true
     restart: unless-stopped
