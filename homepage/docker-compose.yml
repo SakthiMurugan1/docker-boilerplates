@@ -9,6 +9,7 @@ services:
     volumes:
       - /home/smurugan/docker/homepage/config:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
+      - /mnt/data:/mnt/data
     #environment:
       #PUID: $PUID
       #PGID: $PGID

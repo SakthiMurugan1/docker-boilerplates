@@ -5,7 +5,9 @@
 - resources:
     cpu: true
     memory: true
-    disk: /
+    disk:
+      - /
+      - /mnt/data
     expanded: true
     cputemp: true
     uptime: true
