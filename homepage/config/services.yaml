@@ -42,7 +42,8 @@
         widget:
           type: pihole
           url: https://pihole.homeserver.local
-          key: '' # optional
+          version: 6 # required if running v6 or higher, defaults to 5
+          key: '' # optional, in v6 can be your password or app password
 
 - Services:
     - Jellyfin:
