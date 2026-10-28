@@ -10,7 +10,7 @@ services:
       #- PAGID=10000
       - PGID=1000
       - PUID=1000
-      - QBT_EULA=accept
+      - QBT_LEGAL_NOTICE=confirm
       - QBT_VERSION=latest
       - QBT_WEBUI_PORT=1080
       #- TZ=UTC
