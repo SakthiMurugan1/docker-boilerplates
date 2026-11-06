@@ -54,6 +54,7 @@
         container: jellyfin
         widget:
           type: jellyfin
+          version: 2 #Jellyfin version >= 12 (10.12)
           url: https://jellyfin.homeserver.local
           key: ''
           enableBlocks: true
